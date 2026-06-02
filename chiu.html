@@ -1,0 +1,1343 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>奧森數位族譜｜打造你的家族網站與故事紀錄</title>
+    <meta name="description" content="數位族譜平台，提供家族族譜建立、祖先資料整理、族譜查詢與世系圖生成，讓家族歷史永久保存。">
+    <meta name="keywords" content="數位族譜,家族族譜,線上族譜,族譜系統,族譜查詢,genealogy,family tree">
+    <meta name="robots" content="index, follow">
+    <meta property="og:image" content="static/image/contact-bg.jpg">
+    <link rel="canonical" href="https://jazzplaza.github.io/ad/ad.html">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://code.jquery.com">
+    <link href="static/picture/logo.png" rel="icon">
+    <link rel="stylesheet" href="static/css/bundle.min.css">
+    <link href="static/css/LineIcons.min.css" rel="stylesheet">
+    <link href="static/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="static/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/css/wow.css" rel="stylesheet">
+    <link href="static/css/tootik.min.css" rel="stylesheet">
+    <link href="static/css/line-awesome.min.css" rel="stylesheet">
+    <link href="static/css/jquery.pagepiling.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style047.css">
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-T7QMD26F');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J49JCLQLXK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J49JCLQLXK');
+    </script>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="90">
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7QMD26F" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+    <div class="contact-icons">
+    <!-- Genealogy Info -->
+    <button type="button" class="icon info-icon" id="genealogy-info-trigger" aria-haspopup="dialog" aria-controls="genealogy-info-modal" aria-expanded="false" data-tooltip="族譜問題通報">
+        <span class="info-icon-badge" aria-hidden="true"><i class="las la-info"></i></span>
+        <span class="sr-only">族譜問題通報</span>
+    </button>    
+    <!-- YouTube Audio 
+    <button type="button" class="icon yt-audio-icon" id="yt-audio-trigger" aria-pressed="false" aria-label="播放音效" data-tooltip="聽咱的故事">
+        <i class="lab la-youtube" aria-hidden="true"></i>-->
+    </button>
+    </div>
+
+    <!-- Mobile genealogy zoom controls -->
+    <div class="genealogy-zoom-controls" id="genealogy-zoom-controls" aria-label="樹狀圖縮放控制" hidden>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="out" aria-label="縮小">−</button>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="reset" aria-label="重置">1×</button>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="in" aria-label="放大">＋</button>
+    </div>
+
+    <!-- Hidden YouTube audio player (for sound only) -->
+    <div class="yt-audio-player" aria-hidden="true">
+        <div id="yt-audio-player"></div>
+    </div>
+
+<!-- Bottom audio timeline (shows only while playing) -->
+<div class="yt-audio-bar" id="yt-audio-bar" hidden>
+    <button type="button" class="yt-audio-bar__btn" id="yt-audio-bar-toggle" aria-label="停止播放">
+        <i class="fa fa-stop" aria-hidden="true"></i>
+    </button>
+    <div class="yt-audio-bar__meta">
+        <div class="yt-audio-bar__title alt-font" id="yt-audio-bar-title">音源播放中</div>
+        <div class="yt-audio-bar__time alt-font"><span id="yt-audio-bar-current">0:00</span> / <span id="yt-audio-bar-duration">0:00</span></div>
+    </div>
+    <input class="yt-audio-bar__range" id="yt-audio-bar-range" type="range" min="0" max="1000" value="0" step="1" aria-label="播放進度">
+</div>
+
+<div class="info-modal" id="genealogy-info-modal" role="dialog" aria-modal="true" aria-labelledby="genealogy-info-title" hidden>
+    <div class="info-modal__backdrop" data-modal-close="true"></div>
+    <div class="info-modal__panel">
+        <button type="button" class="info-modal__close" data-modal-close="true" aria-label="關閉說明視窗">&times;</button>
+        <h3 id="genealogy-info-title">族譜問題通報</h3>
+        <p style="font-family: 'Microsoft JhengHei', 'Heiti TC', 'sans-serif'; font-weight: 500;">本數位族譜建構不易，感謝春慕阿公手抄許多重要資訊，加上製作者往返戶政事務所查詢資料才得以組織完整<br>若大家手邊有珍貴的照片或生活近況，隨時歡迎傳給我做頁面更新！讓我們一起把這個空間填滿，讓每位家族成員都能感受到滿滿的溫暖與歡樂。<br>Line ID：jazzplaza</p>
+    </div>
+</div>
+
+<!-- Preloader -->
+<div class="loader" id="loader-fade">
+    <div class="linear-activity">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+<!-- Preloader End -->
+
+<!-- START HEADER -->
+<div class="wrap_container cursor-light">
+    <div class="main_container">
+        <div class="side_nav">
+            <div class="my-sticky-nav">
+                <div class="side_menu">
+                    <a class="brand-logo link" href="">
+                        <img src="static/picture/logo.png" alt="logo" style="height: 87%;width: 87%;">
+                    </a>
+                    <div id="my_tog" class="my_tog link" onmouseover="my_click();">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="side-brand-tagline" aria-label="DIGITAL GENEALOGY ARCHIVES TAIWAN EST.2025">
+                        <div class="side-brand-tagline__big">DIGITAL</div>
+                        <div class="side-brand-tagline__big">GENEALOGY</div>
+                        <div class="side-brand-tagline__big">ARCHIVES</div>
+                        <div class="side-brand-tagline__spacer"></div>
+                        <div class="side-brand-tagline__big">TAIWAN</div>
+                        <div class="side-brand-tagline__big">EST.2026</div>
+                    </div>
+                    <div>
+                        <a class="brand-logo sticky-logo link" href="">
+                            <img src="static/picture/logo.png" alt="logo" style="height: 80%;width: 80%;">
+                        </a>
+                    </div>
+                    <!-- Sticky Nav -->
+                    <nav class="side-nav-menu">
+                        <ul class="nav-menu nav-fill" id="menu">
+                            <li class="nav-item">
+                                <a data-menuanchor="home-banner" class="nav-link link active line" href="#home-banner">家 Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="about" class="nav-link link line" href="#about">樹狀圖 Family Tree</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="team" class="nav-link link line" href="#team">好味道 The taste of memory</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="portfolio" class="nav-link link line" href="#portfolio">美好照片 Precious Photo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="blog" class="nav-link link line" href="#blog">美好影片 Precious Videos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="contact" class="nav-link link line" href="#contact">承先啟後故事 Our Story</a></li>
+                        </ul>                        
+                        
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+<!-- END HEADER -->
+
+<div id="pagepiling">
+
+<!-- START BANNER -->
+    <section class="section slide1 p-0" id="home-banner">
+        <div class="slider-area" id="slider-area">
+            <div class="bg-overlay bg-pink opacity-8"></div>
+            <div class="container">
+                <div class="row align-items-center banner-row-scale">
+                    <div class="col-12 col-md-6 section1left wow" data-wow-delay=".8s">
+                        <img src="static/image/title.png" class="title-img title-img--banner" alt="">
+                        <!--<h1 class="main-font font-weight-bold text-white" >數位族譜 <span class="d-block">講咱的家族故事</span></h1>-->
+                        <p class="alt-font text-white my-4">春慕阿公說：從小過著貧苦的生活，經過重重努力與儉腸凹肚，好不容易才脫離貧苦，期盼後代子孫不要再過著祂當時候的窮困生活。<br><br>
+古人說1命2運3風水4厝場5積德6學問，但春慕阿公認為順序是  勤為首要、人緣、誠實、學問、積德、命運、風水(厝場)。</p>
+                        <a href="#about" class="btn btn-medium btn-rounded btn-trans text-capitalize mb-4 mb-md-0">觀看家族樹狀圖</a>
+                    </div>
+                    <div class="col-12 col-md-6 section1right wow" data-wow-delay=".8s">
+                        <div class="banner-image">
+                            <div class="banner-orbit" aria-hidden="true"></div>
+                            <svg class="slider-shape" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 700 700">
+                                <g>
+                                    <path data-depth="0.05" id="shape-1" fill="#ffffff" d="M355.43 45.1C398 31.19 442.59 29 484 39.88c55.11 14.5 117.25 54.91 134.57 160.78 0 0 18.6 99.41-12.78 232 0 0-38.65 142.61-90.66 192 0 0-59 61.95-148.78 59.18 0 0-42.15 0-102.34-27.17 0 0-184-88.78-240.17-199S11 211.81 150.69 135.43C241.1 86 314.73 58.41 355.43 45.1z" opacity=".25"></path>
+                                    <path data-depth="0.07" id="shape-2" fill="#ffffff" d="M105.78 387.15c-15.76-38.08-21-79.83-14.15-120.46C100.79 212.61 133 148.14 228 116.38c0 0 89-32 211.88-21.76 0 0 132.5 15.66 181.18 57.51 0 0 60.65 46.59 64.69 131.66 0 0 3.11 39.73-17.22 100.45 0 0-67.27 186.43-163.35 255.44S282.55 687.58 202.89 567c-51.57-78-82.04-143.42-97.11-179.85z" opacity=".25"></path>
+                                    <path data-depth="0.09" id="shape-3" fill="#ffffff" d="M112.59 129.56c18.72-39.73 47.85-73.83 84.82-97.56 49.2-31.55 123.12-52.4 216.29-.29 0 0 89.1 47.22 169.11 151.43 0 0 82.67 115.68 84.6 184.07 0 0 6.77 81.22-57.4 145.42 0 0-29.09 30.94-91.54 58.46 0 0-195.21 80.68-318.52 54.43S2.54 484.38 40.43 335.12C65 238.51 94.68 167.58 112.59 129.56z" opacity=".25"></path>
+                                    <path id="shape-4" d="M129.39 153.77C146.74 117 173.73 85.35 208 63.38c45.59-29.25 114.09-48.57 200.42-.28 0 0 82.56 43.75 156.7 140.31 0 0 76.61 107.2 78.4 170.57 0 0 6.27 75.26-53.19 134.75 0 0-27 28.67-84.82 54.17 0 0-180.89 74.76-295.15 50.43S27.41 482.55 62.52 344.24c22.74-89.52 50.27-155.24 66.87-190.47z" opacity="0"></path>
+                                    <clippath id="shape-img">
+                                        <circle cx="350" cy="350" r="350"></circle>
+                                    </clippath>
+                                </g>
+                                <!--Change Image path here-->
+                                <image id="banner-slider-img" data-depth="0.1" clip-path="url(#shape-img)" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" xlink:href="static/image/slider-img.png"></image>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END BANNER -->
+
+<!-- START ABOUT -->
+    <section class="section slide2 about" id="about">
+        <div class="bg-overlay bg-gray opacity-8"></div>
+        <div class="box position-relative about-zoom5In wow" data-wow-delay=".5s">
+            <div class="box-overlay"></div>
+            <div class="row align-items-center justify-content-center">
+	                <div class="col-12 col-md-8 col-lg-9 text-left">
+	                    <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
+	                    <div class="story-title-divider" aria-hidden="true"></div>
+	                    <p class="py-4 py-md-0">點擊姓名即可展開，族譜與長輩族譜分別檢視，畫面右下角有放大縮小控制功能方便觀看。</p>
+	                </div>
+                <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                    <div class="genealogy-tablist" role="tablist" aria-label="家族樹切換">
+                        <button type="button" class="genealogy-tab is-active" data-genealogy-tab="paternal" role="tab" aria-selected="true" aria-controls="genealogy-panel-paternal" id="genealogy-tab-paternal">族譜</button>
+                        <button type="button" class="genealogy-tab" data-genealogy-tab="maternal" role="tab" aria-selected="false" aria-controls="genealogy-panel-maternal" id="genealogy-tab-maternal">長輩族譜</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 px-0 section-heading about-fadeIn wow animated genealogy-panel-wrap" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
+        <template id="genealogy-tree-family-template">
+<div class="body genealogy-body genealogy-scroll">
+    <div class="genealogy-tree">
+        <ul>
+            <li>
+                <a href="javascript:void(0);">
+                    <div class="member-view-box">
+                        <div class="member-image">
+                            <img src="./img/01.png" alt="Member">
+                            <div class="member-details member-details--qiu-gen5">
+                                <div class="gen-left-annot" aria-hidden="true">邱家第五世</div>
+                                <h3>邱春慕&黃綉琴</h3>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <ul class="active">
+                <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image2">
+                                    <img src="./img/2-1.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱慧仙</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                                                       
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-2-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>黃昭元&葉安慈</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-1-1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>黃芊惠</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-1-2.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>黃謙任</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-2-2.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>黃毓婷&夏文忠</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-2-1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>夏以甯</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-2-2-2.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>夏子鈞</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+                           
+                            
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image">
+                                    <img src="./img/2-2.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱芬蘭&賴明清</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-4.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>賴儀恬&張凱珏</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-1-2-1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>張翼</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-1-2-2.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>張揚</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-1-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>賴琬欣&李智明</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image2">
+                                            <img src="./img/2-1-3-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>賴蓁瑩</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image">
+                                    <img src="./img/2-1-2.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱浚騰&洪淑寶</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-5.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱柏鈞&黃婷萱</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-5_1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>邱詩媛</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>  
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image2">
+                                            <img src="./img/2-1-4-1.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱宗憲</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            <div class="member-view-box">
+                                <div class="member-image2">
+                                    <img src="./img/2-1-3.png" alt="Member">
+                                    <div class="member-details">
+                                        <h3>邱敬堯</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <ul >
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image2">
+                                            <img src="./img/2-1-3-2.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱子瑜</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="member-view-box">
+                                        <div class="member-image">
+                                            <img src="./img/2-1-4.png" alt="Member">
+                                            <div class="member-details">
+                                                <h3>邱柏瀚&呂沛珊</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="member-view-box">
+                                                <div class="member-image2">
+                                                    <img src="./img/2-1-4_1.png" alt="Member">
+                                                    <div class="member-details">
+                                                        <h3>邱暄涵</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </li>
+                            
+                            
+                            
+                        </ul>
+                    </li>
+                    
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+        </template>
+        <template id="genealogy-tree-ancestor-template">
+<div class="genealogy-panel genealogy-panel--ancestor">
+<div class="ancestor-scroll genealogy-scroll">
+<div class="body genealogy-body genealogy-body--ancestor-split">
+    <div class="genealogy-tree genealogy-tree--ancestor genealogy-tree--ancestor-left">
+        <ul>
+            <li>                
+                <div class="ancestor-prestack" aria-hidden="true">
+                    <div class="member-view-box">
+                        <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="1">
+                            <div class="ancestor-gen-label" aria-hidden="true">一世</div>
+                            <h3>邱馬助 &莊氏𠋌 </h3>
+                            <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                <div class="ancestor-note__bubble">
+                                    福建籍，邱馬助享年62、莊氏𠋌享年64
+                                </div>
+                            </div>
+                            <div class="ancestor-arrow-inside" aria-hidden="true">▼</div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row">                        
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="1">
+                                <div class="ancestor-gen-label" aria-hidden="true">二世</div>
+                                <h3>邱國聚 &王氏治 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，邱國聚享年63、王氏治享年70
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen3">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱烏獅 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱烏獅得年17
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱玉柱 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱玉柱享年42
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱天水 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱天水得年24
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="3">
+                                <div class="ancestor-gen-label" aria-hidden="true">三世</div>
+                                <h3>邱江忠 &黃氏摘 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，明治元年出生(1868年)臺中州彰化郡花壇庄白沙坑，邱江忠享年54、黃氏摘因肌病死亡享年83
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱鳳舞 &邱賴陝 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱鳳舞享年43、邱賴陝享年60
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="3">
+                                <h3>邱文憲 & </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱文憲得年22
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen4-right4">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱老定 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱老定得年17
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱塗 &洪月雲 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱塗享年90、洪月雲享年80
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main-left">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="4">
+                                <div class="ancestor-gen-label" aria-hidden="true">四世</div>
+                                <h3>邱天諒 &邱王治 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，民國前5年出生(1907年)國校畢業 彰化十信職員，邱天諒享年65、邱王治享年77，邱王治父母：王金水.王高叩(佃作)，祖父母：王媽鉗.王張氏完
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱成 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱成得年12
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="4">
+                                <h3>邱福 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        花壇鄉，邱福得年13
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen5">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱春港(長男) &邱王鏡然 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，民國15年出生，國校畢業，千振企業業務經理.彰化縣府庶務股長退休，邱春港享年85
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="5">
+                                <div class="ancestor-gen-label" aria-hidden="true">五世</div>
+                                <h3>邱春慕(次男) &黃綉琴 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，民國18年出生，花壇國小畢業，彰化一信總經理退休，邱春慕享年96、黃綉琴享年76，母親黃陳偷來自默園家族
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱春泉(三男) &邱王寶珠 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱春渠(四男) &劉貴美 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，邱春渠享年80
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱春良(五男) &周晴美 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱貴美(長女) &蔡下森 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，蔡下森享年40
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱美珠(次女) &普保祥 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，普保祥享年89
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="5">
+                                <h3>邱美玉(三女) &黃永齡 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，黃永齡享年75
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen6">
+                        <div class="member-view-box ancestor-prestack-row__sib">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">邱文章</div>
+                                    <div class="ancestor-gen6-mini-table__cell">吳美慧</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱祐德</div>
+                                    <div class="ancestor-gen6-mini-table__cell">郭桂芳</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱嬌娥</div>
+                                    <div class="ancestor-gen6-mini-table__cell">江新梅</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱月娥</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱玲玲</div>
+                                    <div class="ancestor-gen6-mini-table__cell">林振峰</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">邱元宏</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱慧仙</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱芬蘭</div>
+                                    <div class="ancestor-gen6-mini-table__cell">賴明清</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱浚騰</div>
+                                    <div class="ancestor-gen6-mini-table__cell">洪淑寶</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱敬堯</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">邱一徹</div>
+                                    <div class="ancestor-gen6-mini-table__cell">劉文志</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱一伸</div>
+                                    <div class="ancestor-gen6-mini-table__cell">卓美惠</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱瑩娜</div>
+                                    <div class="ancestor-gen6-mini-table__cell">楊天恩</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱欣欣</div>
+                                    <div class="ancestor-gen6-mini-table__cell">黃灯耀</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">邱子珍</div>
+                                    <div class="ancestor-gen6-mini-table__cell">方仰寧</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱千芬</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱于倩</div>
+                                    <div class="ancestor-gen6-mini-table__cell">舒大衛</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱小淩</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">邱啟峰</div>
+                                    <div class="ancestor-gen6-mini-table__cell">李虹蝗</div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱偉峰</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell">邱惠楨</div>
+                                    <div class="ancestor-gen6-mini-table__cell">李德成</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">蔡志暉</div>
+                                    <div class="ancestor-gen6-mini-table__cell">林紫雲</div>
+                                    <div class="ancestor-gen6-mini-table__cell">蔡博宜</div>
+                                    <div class="ancestor-gen6-mini-table__cell">詹惠智</div>
+                                    <div class="ancestor-gen6-mini-table__cell">蔡慧俐</div>
+                                    <div class="ancestor-gen6-mini-table__cell">陳榮吉</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">普豫芝</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right">
+                            <div class="member-details" data-ancestor-gen="6">
+                                <h3>子女/配偶</h3>
+                                <div class="ancestor-gen6-mini-table" aria-label="六世表格">
+                                    <div class="ancestor-gen6-mini-table__cell">黃子驥</div>
+                                    <div class="ancestor-gen6-mini-table__cell">周芬美</div>
+                                    <div class="ancestor-gen6-mini-table__cell">黃子聰</div>
+                                    <div class="ancestor-gen6-mini-table__cell">陳盈蒨</div>
+                                    <div class="ancestor-gen6-mini-table__cell">黃子萍</div>
+                                    <div class="ancestor-gen6-mini-table__cell">梁志豪</div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                    <div class="ancestor-gen6-mini-table__cell"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="active">
+                    <li>
+                        
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+        </template>
+        <div class="genealogy-panel is-active" data-genealogy-panel="paternal" id="genealogy-panel-paternal" role="tabpanel" aria-labelledby="genealogy-tab-paternal"></div>
+        <div class="genealogy-panel" data-genealogy-panel="maternal" id="genealogy-panel-maternal" role="tabpanel" aria-labelledby="genealogy-tab-maternal" hidden></div>
+        <div class="tree-open-hint" id="tree-open-hint" aria-hidden="true">
+            <img src="img/tree_open.png" alt="展開樹狀圖提示">
+        </div>
+        </div>
+    </section>
+<!-- END ABOUT -->
+
+<!-- START TEAM -->
+    <section class="section slide6 blog-bg" id="team">
+        <div class="bg-overlay bg-yellow opacity-8"></div>
+        <div class="container expand-container">
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_01.png" class="title-img title-img--section" alt="好味道">
+                    </h2>
+                    <p class="section-template-subtitle alt-font" style="color:#f54343;">阿樹意麵、海盜餐...還有大舅媽的炸年糕，滿桌的佳餚滿足溫暖了大家，近期可好?!能聚在一起都是最好的事情。</p>
+                    <a href="#portfolio" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">照片回味</a>
+                </div>
+                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
+                    <div class="owl-testimonial owl-carousel">
+                        <!-- Item 1 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph speech-bubble" style='font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 500;'>所謂的享受就是阿樹的麵配上一碗熱湯、西瓜汁加上些許檸檬汁，熟客的口味老闆最知道!跟著阿公吃絕對沒有錯~</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">
+                                            <img src="static/picture/testimonial-img-2.png" alt="阿公最愛">
+                                            <div class="testimonial-label">阿公最愛</div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                        <!-- Item 2 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph speech-bubble" style='font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 500;'>菜麵、控肉飯是最棒的早餐，也可以當中餐晚餐或消夜!隨時來上一碗，神清氣爽精神好!</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">  
+                                            <img src="static/picture/testimonial-img-1.png" alt="幽默大舅舅">
+                                            <div class="testimonial-label">幽默大舅舅</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph speech-bubble" style='font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 500;'>肉圓涼圓、糯米炸、大元麻糬...永遠吃不膩的家鄉美食!</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">    
+                                            <img src="static/picture/testimonial-img-3.png" alt="草猴大姑姑">
+                                            <div class="testimonial-label">草猴大姑姑</div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Team-->
+            <div class="row team-fade wow section-template-secondary" data-wow-delay=".8s">
+                <div class="col-sm-12">
+	                    <div id="team-slider" class="owl-carousel owl-theme wow fadeInUp">
+	                        <!--Team Item-->
+	                        <div class="team-box item">
+	                            <!--Team Image-->
+	                            <div class="team-image">
+	                                <img src="static/picture/team-img1.jpg" alt="image">
+	                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">木瓜牛乳大王</h5>
+                                <span class="alt-font">紅豆牛奶冰、木瓜牛奶必點</span>                                
+                            </div>
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img2.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">肉包明</h5>
+                                <span class="alt-font">台灣第一肉包子</span>                                
+                            </div>
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img3.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">素麵</h5>
+                                <span class="alt-font">加豆包大滿足</span>                                
+                            </div>
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img-4.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">阿泉控肉販</h5>
+                                <span class="alt-font">肥肉是重點</span>                                
+                            </div>
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
+                            <!--Team Image-->
+                            <div class="team-image">
+                                <img src="static/picture/team-img-5.jpg" alt="image">
+                            </div>
+                            <!--Team Text-->
+                            <div class="team-text">
+                                <h5 class="main-font">阿樹擔仔麵</h5>
+                                <span class="alt-font">一甲子的好味道</span>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END TEAM -->
+
+<!-- START PORTFOLIO -->
+    <section class="section slide4 portfolio-bg" id="portfolio">
+        <div class="bg-overlay text-light-black opacity-8"></div>
+        <div class="container">
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_02.png" class="title-img title-img--section" alt="照片回味">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">彰化家中客廳光亮通風，阿公坐在客廳說著以前的故事...歷歷在目的景象深深在腦海裡留存著~<br><br>隨著時間和人口的增長，熟悉的彼此關心與家常閒聊就是最熟悉不過的家族溫度!</p>
+                    <a href="#blog" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">影片回味</a>
+                </div>
+	                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay="0s">
+	            <!-- Portfolio -->
+	            <div class="row portfolio-fade wow" data-wow-delay="0s">
+	                <div class="col-sm-12">
+	                    <div class="portfolio-main">
+	                        <a class="portfolio-main__link" href="img/2025.jpg" data-fancybox="portfolio-images" data-caption="大舅熱情邀約的聚餐... / 20251005台北海霸王">
+	                            <div class="portfolio-main__frame">
+	                                <img class="portfolio-main__img" src="img/2025.jpg" alt="大舅熱情邀約的聚餐... / 20251005台北海霸王">
+	                                <div class="portfolio-main__overlay" aria-hidden="true">
+	                                    <div class="portfolio-main__icon"><i class="fa fa-plus"></i></div>
+	                                    <div class="portfolio-main__hint alt-font">原圖</div>
+	                                </div>
+	                            </div>
+	                            <img class="portfolio-main__corner-png" src="img/toy.png" alt="" aria-hidden="true">
+	                        </a>
+	                        <div class="portfolio-main__caption text-yellow main-font">大舅熱情邀約的聚餐... / 20251005台北海霸王</div>
+	                    </div>
+	                </div>
+	            </div>
+	                </div>
+	            </div>
+
+	            <div class="row">
+	                <div class="col-12 col-lg-8 offset-lg-4">
+	                    <div class="portfolio-thumbs" aria-label="更多照片縮圖">
+	                        <button type="button" class="portfolio-thumbs__nav portfolio-thumbs__nav--prev" aria-label="上一張縮圖">
+	                            <i class="lni-chevron-left"></i>
+	                        </button>
+	                        <div class="portfolio-thumbs__viewport">
+	                            <div class="portfolio-thumbs__track">
+	                            <a class="portfolio-thumbs__item is-active" href="img/2025.jpg" data-thumb="img/2025.jpg" data-caption="大舅熱情邀約的聚餐... / 20251005台北海霸王" aria-label="2025">
+	                                <img src="img/2025.jpg" alt="2025">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/2025-1.jpg" data-thumb="img/2025-1.jpg" data-caption="一日九份之旅! / 20250916九份" aria-label="2025-1">
+	                                <img src="img/2025-1.jpg" alt="2025-1">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/2023.jpg" data-thumb="img/2023.jpg" data-caption="大年初三聚餐 / 20230124 卦山月圓景觀餐廳" aria-label="2023">
+	                                <img src="img/2023.jpg" alt="2023">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/2022.jpg" data-thumb="img/2022.jpg" data-caption="大年初三聚餐 / 20220203 台中品虹橋" aria-label="2022">
+	                                <img src="img/2022.jpg" alt="2022">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/2021.jpg" data-thumb="img/2021.jpg" data-caption="大年初三聚餐 / 20210214 彰化淺田屋" aria-label="2021">
+	                                <img src="img/2021.jpg" alt="2021">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/2017.jpg" data-thumb="img/2017.jpg" data-caption="大年初三聚餐 / 2017 過年聚餐" aria-label="2017">
+	                                <img src="img/2017.jpg" alt="2017">
+	                            </a>
+                                <a class="portfolio-thumbs__item" href="img/2016.jpg" data-thumb="img/2016.jpg" data-caption="大年初三聚餐 / 2016 過年聚餐" aria-label="2016">
+                                    <img src="img/2016.jpg" alt="2016">
+                                </a>
+                                <a class="portfolio-thumbs__item" href="img/2015.jpg" data-thumb="img/2015.jpg" data-caption="台中喜宴 / 2015 賴儀恬婚宴" aria-label="2015">
+                                    <img src="img/2015.jpg" alt="2015">
+                                </a>
+	                            </div>
+	                        </div>
+	                        <button type="button" class="portfolio-thumbs__nav portfolio-thumbs__nav--next" aria-label="下一張縮圖">
+	                            <i class="lni-chevron-right"></i>
+	                        </button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </section>
+<!-- END PORTFOLIO -->
+
+<!-- START BLOG -->
+    <section class="section slide6 team" id="blog">
+        <div class="bg-overlay bg-blue opacity-8"></div>
+        <div class="container expand-container">
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_03.png" class="title-img title-img--section" alt="影片回味">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">總有個地方讓大家都熟悉又放鬆...<br><br>回到彰化家中，大家習慣分別行動外出採買，讓客廳的長桌上擺滿了肉圓、菜麵和木瓜牛奶，無論外界如何變遷，只要按下播放鍵，那份珍貴的情感連結便會再次鮮活起來，提醒著我們，那些共同走過的路、笑過的瞬間，始終是生命中最耀眼的光芒。</p>
+                    <a href="#contact" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">訴說家族故事</a>
+                </div>
+                <div class="col-12 col-lg-8 section-template-content video-review-scope" id="video-review-scope">
+                    <div class="video-review" aria-label="影片回顧">
+	                        <div class="video-review__main">
+	                            <div class="tv video-review__tv">
+	                                <div class="video-review__tv-media">
+	                                    <iframe
+	                                        class="video video-review__iframe"
+	                                        id="video-review-main"
+	                                        src="https://www.youtube.com/embed/SNkt7GjmBEU"
+	                                        frameborder="0"
+	                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+	                                        allowfullscreen></iframe>
+	                                </div>
+	                                <img class="video-review__tv-frame" src="static/image/tv.png" alt="" aria-hidden="true">
+	                            </div>
+	                            <div class="video-review__title main-font text-yellow" id="video-review-title">懷念阿公</div>
+	                        </div>
+	                    </div>
+	                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-8 offset-lg-4 video-review-scope">
+                    <div class="video-review__side video-review__side--below" aria-label="其他影片">
+                        <button type="button" class="video-review__item" data-video-id="NLC_Ojr9J_A" aria-label="2020慶生會">
+                            <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/NLC_Ojr9J_A/hqdefault.jpg');"></span>
+                            <span class="video-review__label main-font">2020慶生會</span>
+                        </button>
+                        <button type="button" class="video-review__item" data-video-id="8hg0Rml1qmk" aria-label="舞棍阿公">
+                            <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/8hg0Rml1qmk/hqdefault.jpg');"></span>
+                            <span class="video-review__label main-font">舞棍阿公</span>
+                        </button>
+                        <button type="button" class="video-review__item" data-video-id="SNkt7GjmBEU" aria-label="懷念阿公">
+                            <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/SNkt7GjmBEU/hqdefault.jpg');"></span>
+                            <span class="video-review__label main-font">懷念阿公</span>
+                        </button>
+                        <button type="button" class="video-review__item" data-video-id="Oa5oKEF1U6M" aria-label="永福長老教會 感恩告別禮拜">
+                            <span class="video-review__thumb" style="background-image:url('https://i.ytimg.com/vi/Oa5oKEF1U6M/hqdefault.jpg');"></span>
+                            <span class="video-review__label main-font">永福長老教會 感恩告別禮拜</span>
+                        </button>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END BLOG -->
+
+<!-- START CONTACT -->
+    <section class="section slide5 contact-sec" id="contact">
+        <div class="bg-overlay bg-green opacity-9"></div>
+        <div class="container expand-container">
+            <div class="row align-items-start section-template-row">
+	                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+	                    <h2 class="section-template-title main-font">訴說家族故事</h2>
+	                    <div class="story-title-divider" aria-hidden="true"></div>
+	                    <p class="section-template-subtitle alt-font">把記憶整理成故事，讓故事繼續流傳</p>
+	                    <img src="img/0825_tree_420.png" class="story-tree-float" alt="家族樹狀圖">                    
+	                </div>
+	                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
+	                    <div class="contact-details wow fadeInRight">
+	                        <div class="story-tabs" role="tablist" aria-label="訴說家族故事內容切換">
+	                            <button type="button" class="story-tab is-active" data-story-tab="story" role="tab" aria-selected="true" aria-controls="story-panel-story" id="story-tab-story">故事內容</button>
+	                            <button type="button" class="story-tab" data-story-tab="memorial" role="tab" aria-selected="false" aria-controls="story-panel-memorial" id="story-tab-memorial">追思資訊</button>
+	                        </div>
+	                        <div class="story-panels">
+	                            <div class="story-panel is-active" id="story-panel-story" role="tabpanel" aria-labelledby="story-tab-story">
+	                                <p class="text alt-font" style="color:#4f4f4f;">春慕阿公、綉琴阿嬤經歷日據時代及國民政府來台，從小就身處威權掌控的環境，被迫學習あ、い、う、え、お再變到ㄅ、ㄆ、ㄇ，艱困環境讓他們培養強大適應力和存活力量，所以他們更懂得把握機會、更懂得珍惜與節儉。
+隨著生活和經濟的好轉，阿公投資房產並購地建房，讓家中子女們能夠受到很好的教育並皆有很好的發展，一路的扶持與照料，阿公的努力沒有白費，不只經濟穩定、也有著健康的身體，更有做為表率的良好言行舉止讓後輩學習。因為過過窮困苦日子，所以常常告誡後輩"千萬不要窮"，要努力於工作、照顧家庭並將身體健康照料好，謹守本分、正直的心。<br><br>
+
+阿公用他一生的奉獻，成為了家族最穩固的根。如今，雖然我們在各地開枝散葉、為生活各自努力，但那份強韌的凝聚力，始終引領著我們緊緊相依。</p>
+	                            </div>
+			                            <div class="story-panel" id="story-panel-memorial" role="tabpanel" aria-labelledby="story-tab-memorial" hidden>
+			                                <div class="memorial-block text alt-font" style="color:#4f4f4f;">
+			                                    <div class="memorial-row">
+                                                    <span class="memorial-label">▶ 黃陳偷阿祖 彰化善化佛堂</span>
+                                                    <span class="memorial-coord"></span>
+                                                </div>
+			                                    <div class="memorial-row">
+			                                        <span class="memorial-label">▶ 黃綉琴阿嬤 彰化太極恩主寺</span>
+			                                        <span class="memorial-coord"></span>
+			                                    </div>
+			                                    <div class="memorial-row">
+			                                        <span class="memorial-label">▶ 邱春慕阿公 彰化縣軍人忠靈祠</span>
+			                                        <span class="memorial-coord"></span>
+			                                    </div>			                                    
+			                                </div>
+			                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="timeline-container">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/01.png" alt="Event 1"></div>
+                                <p>陳稜路購地自建</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/02.png" alt="Event 2"></div>
+                                <p>彰化一信總經理退休</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/03.png" alt="Event 3"></div>
+                                <p>舉辦家族聚餐</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/04.png" alt="Event 4"></div>
+                                <p>彰化一信周刊邀稿</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/01.png" alt="Event 5"></div>
+                                <p>榮獲彰化市模範父親</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/02.png" alt="Event 6"></div>
+                                <p>春慕阿公享年96</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/03.png" alt="Event 7"></div>
+                                <p>家族故事還會繼續</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- END CONTACT -->
+</div>
+
+<!-- Start Copyright -->
+<div class="slider-bottom cursor-light">   
+    <div class="slider-copyright text-white link">族譜更新維護 <a target="_blank" href="https://awesomebobi.blogspot.com/">奧森設計工作室</a></div>
+</div>
+<!-- End Copyright -->
+
+<!--Animated Cursor-->
+<div id="animated-cursor">
+    <div id="cursor">
+        <div id="cursor-loader"></div>
+    </div>
+</div>
+
+
+<script defer src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script defer src="./script.js"></script>
+<script defer src="static/js/bundle.min.js"></script>
+<script defer src="static/js/wow.min.js"></script>
+<!-- Plugin Js -->
+<script defer src="static/js/jquery.appear.js"></script>
+<script defer src="static/js/jquery.fancybox.min.js"></script>
+<script defer src="static/js/owl.carousel.min.js"></script>
+<!-- CUSTOM JS -->
+<script defer src="static/js/jquery.pagepiling.min.js"></script>
+<script defer src="static/js/TweenMax.min.js"></script>
+<script defer src="static/js/contact_us.js"></script>
+<script>
+    // Ensure callback exists before YouTube IFrame API loads.
+    window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || function () {};
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script defer src="static/js/script.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "奧森數位族譜",
+      "url": "https://jazzplaza.github.io/ad/ad.html",
+      "description": "建立家族族譜、祖先世系與家族故事的數位族譜平台",
+      "inLanguage": "zh-TW",
+      "publisher": {
+        "@id": "https://jazzplaza.github.io/ad/ad.html#organization"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://jazzplaza.github.io/ad/ad.html#organization",
+      "name": "奧森設計工作室",
+      "url": "https://awesomebobi.blogspot.com/"
+    }
+  ]
+}
+</script>
+</body></html>
