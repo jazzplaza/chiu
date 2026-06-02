@@ -48,7 +48,7 @@ a, input, button, .navbar, .fixedmenu, .tp-bullet, .owl-dot, .owl-prev, .owl-nex
 section,.section-padding {position: relative;overflow: hidden;}
 a {color:inherit;text-decoration: none;}
 .btn.focus, .btn:focus{-webkit-box-shadow: none;box-shadow: none;}
-p:last-child{margin-bottom: 0 !important; font-family: '標楷體', sans-serif; text-align: left;}
+p:last-child{margin-bottom: 0 !important; font-family: 'Montserrat', sans-serif; text-align: left; font-weight: 300; line-height: 1.5;}
 .fa, .far, .fas{display: inline;}
 li{list-style: none;text-decoration: none;}
 blockquote {border-left: 2px solid;padding: 10px 15px 10px 35px;margin: 25px 0;font-size: 18px;line-height: 28px;}
@@ -103,12 +103,12 @@ section{padding: 0;}
 .text-light-black {color: #232728;}
 
 /* Background color */
-.bg-green {background: #353d31;}
-.bg-pink {background: #136062c9;}
-.bg-yellow {background: #b79059;}
-.bg-gray {background: #999999;}
-.text-light-black {background: #232728;}
-.bg-blue {background: #637a91;}
+.bg-green {background: #;}
+.bg-pink {background: #;}
+.bg-yellow {background: #;}
+.bg-gray {background: #;}
+.text-light-black {background: #232728a6;}
+.bg-blue {background: #0b3661bf;}
 .bg-red {background: #790707;}
 .bg-transparent {background: transparent;}
 
@@ -748,10 +748,14 @@ section{padding: 0;}
 
 /* ===================================
     Expand Nav bar & body Shrink
-====================================== */
+ ====================================== */
 
 .expand_nav{
     left:0;
+}
+
+.side_nav.expand_nav{
+    width:20%;
 }
 
 .close_nav{
@@ -1312,7 +1316,7 @@ svg.slider-shape{
 ====================================== */
 
 .blog-bg{
-    background-image: url("../image/skills-bg.jpg");
+    background-image: url("../image/skills-bg_4.jpg");
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1933,7 +1937,7 @@ svg.slider-shape{
 
     body {text-align: center;overflow-y: hidden!important;}
     html {scroll-behavior: smooth;}
-    section {padding: 5rem 0;}
+    section {padding: 0rem 0 3rem;}
     .h1, h1 {font-size: 36px;}
     .h2, h2 {font-size: 36px;}
     .h3, h3 {font-size: 24px;}
